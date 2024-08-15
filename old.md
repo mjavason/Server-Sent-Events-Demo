@@ -1,5 +1,6 @@
-# Server-Sent-Events-Demo
-This demonstrates how Server-Sent Events (SSE) can be used to receive real-time updates from the server. Whenever a new message is sent from the server, you will hear a notification sound and see an alert with the message.
+# Typescript-SF-Template-App
+
+This is a single file TypeScript template app for faster idea testing and prototyping. It contains tests, one demo root API call, basic async error handling, one demo axios call, and .env support.
 
 **Prerequisites**
 

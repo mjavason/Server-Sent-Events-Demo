@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Server Sent Events Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        position: relative;
+        background-color: #f0f0f0;
+        color: #333;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin-top: 0;
+      }
+
+      p {
+        line-height: 1.6;
+      }
+
+      .notification-bell {
+        position: absolute;
+        right: 20px; /* Adjust the distance from the right edge as needed */
+        top: 20px; /* Adjust the distance from the top edge as needed */
+        width: 3rem;
+        height: 3rem;
+        cursor: pointer;
+      }
+
+      .bell-icon {
+        width: 100%;
+        height: 100%;
+      }
+
+      .new-sign {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+        text-align: center;
+        line-height: 20px;
+        display: none;
+      }
+
+      .footer {
+        padding: 10px;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #666;
+        background-color: #eee;
+        border-top: 1px solid #ddd;
+        bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="notification-bell" onclick="displayNotifications()">
+      <img src="bell.jpg" alt="Notification Bell" class="bell-icon" />
+      <div class="new-sign" id="new-sign">0</div>
+    </div>
+
+    <div class="container">
+      <h1>Welcome to the Notifications Demo</h1>
+      <p>This page demonstrates how Server-Sent Events (SSE) can be used to receive real-time updates from the server. Whenever a new message is sent from the server, you will hear a notification sound and see an alert with the message.</p>
+      <p>The notification bell at the top right corner will display the number of new messages. Click the bell to view all notifications and reset the count.</p>
+    </div>
+
+    <div class="footer">
+      <p>&copy; 2024 Your Company. All rights reserved.</p>
+    </div>
+
+    <script>
+      let notificationCount = 0;
+      let accumulatedData = '';
+
+      // Create an Audio object for notification sound
+      const notificationSound = new Audio('notification.mp3');
+
+      const eventSource = new EventSource('http://localhost:5000/events');
+
+      eventSource.onmessage = function (event) {
+        // Append the new data and update the notification count
+        accumulatedData += event.data + '\n';
+        notificationCount++;
+        const newSignElement = document.getElementById('new-sign');
+        newSignElement.textContent = notificationCount;
+        newSignElement.style.display = 'block';
+
+        // Play the notification sound
+        notificationSound.play().catch(error => {
+          console.error('Error playing sound:', error);
+        });
+      };
+
+      function displayNotifications() {
+        // Display the accumulated data in an alert and reset
+        if (notificationCount > 0) {
+          alert('Notifications:\n' + accumulatedData);
+          // Reset notification count and data
+          notificationCount = 0;
+          accumulatedData = '';
+          const newSignElement = document.getElementById('new-sign');
+          newSignElement.textContent = notificationCount;
+          newSignElement.style.display = 'none';
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -94,8 +94,9 @@
 
       // Create an Audio object for notification sound
       const notificationSound = new Audio('notification.mp3');
-
-      const eventSource = new EventSource('http://localhost:5000/events');
+      
+    //   const eventSource = new EventSource('http://localhost:5000/events');
+      const eventSource = new EventSource('hhttps://server-sent-events-demo.onrender.com/events');
 
       eventSource.onmessage = function (event) {
         // Append the new data and update the notification count

@@ -51,7 +51,7 @@ app.use(morgan('dev'));
 //#endregion
 
 //#region Keys and Configs
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 //#endregion
 
 //#region Code here

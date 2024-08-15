@@ -61,6 +61,7 @@ const PORT = process.env.PORT || 3000;
  * /events:
  *   get:
  *     summary: "Establish SSE connection"
+ *     tags: [Server-Sent Event]
  *     description: "This endpoint establishes a Server-Sent Events (SSE) connection and sends a message every 30 seconds."
  *     responses:
  *       200:
